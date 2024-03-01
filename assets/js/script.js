@@ -7,19 +7,21 @@ $(function () {
 
   // Apply past, present, or future classes
   var currentHour = dayjs().hour();
-  $(".time-block").each(function () {
-    var blockHour = parseInt($(this).attr("id").split("-")[1]);
-    if (blockHour < currentHour) {
-      $(this).addClass("past");
-    } else if (blockHour === currentHour) {
-      $(this).removeClass("past");
-      $(this).addClass("present");
+  var timeBlocks = $(".time-block");
+
+  for (var i = 0; i < timeBlocks.length; i++) {
+    var id = timeBlocks.eq(i).attr("id");
+    var blockHour = parseInt(id); // Parse the hour to integer
+    
+    // Apply classes based on the comparison of current hour and block hour
+    if (blockHour === currentHour) {
+      timeBlocks.eq(i).addClass("present").removeClass("past future");
+    } else if (blockHour > currentHour) {
+      timeBlocks.eq(i).addClass("past").removeClass("present future");
     } else {
-      $(this).removeClass("past");
-      $(this).removeClass("present");
-      $(this).addClass("future");
+      timeBlocks.eq(i).addClass("future").removeClass("present past");
     }
-  });
+  }
 
   // Get any user input saved in localStorage and set the values of corresponding textarea elements
   $(".time-block").each(function () {
@@ -30,7 +32,7 @@ $(function () {
     }
   });
 
-  // Display the current date in the header of the page
+  // Displays current date in the header of the page
   var currentDate = dayjs().format("dddd, MMMM D, YYYY");
   $("#currentDay").text(currentDate);
 });
