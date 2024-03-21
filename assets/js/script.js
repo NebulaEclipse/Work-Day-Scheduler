@@ -1,38 +1,57 @@
-$(function () {
-  $(".saveBtn").on("click", function () {
-    var timeBlockId = $(this).parent().attr("id");
-    var userInput = $(this).siblings("textarea").val();
-    localStorage.setItem(timeBlockId, userInput);
-  });
+// Display today's day and date
+var todayDate = moment().format('dddd, MMM Do YYYY');
+$("#currentDay").html(todayDate);
 
-  // Apply past, present, or future classes
-  var currentHour = dayjs().hour();
-  var timeBlocks = $(".time-block");
+$(document).ready(function () {
+    // saveBtn click listener 
+    $(".saveBtn").on("click", function () {
+        // Get nearby values of the description in JQuery
+        var text = $(this).siblings(".description").val();
+        var time = $(this).parent().attr("id");
 
-  for (var i = 0; i < timeBlocks.length; i++) {
-    var id = timeBlocks.eq(i).attr("id");
-    var blockHour = parseInt(id); // Parse the hour to integer
-    
-    // Apply classes based on the comparison of current hour and block hour
-    if (blockHour === currentHour) {
-      timeBlocks.eq(i).addClass("present").removeClass("past future");
-    } else if (blockHour > currentHour) {
-      timeBlocks.eq(i).addClass("past").removeClass("present future");
-    } else {
-      timeBlocks.eq(i).addClass("future").removeClass("present past");
+        // Save text in local storage
+        localStorage.setItem(time, text);
+    })
+   
+    function timeTracker() {
+        //get current number of hours.
+        var timeNow = moment().hour();
+
+        // loop over time blocks
+        $(".time-block").each(function () {
+            var blockTime = parseInt($(this).attr("id").split("hour")[1]);
+
+            // To check the time and add the classes for background indicators
+            if (blockTime < timeNow) {
+                $(this).removeClass("future");
+                $(this).removeClass("present");
+                $(this).addClass("past");
+            }
+            else if (blockTime === timeNow) {
+                $(this).removeClass("past");
+                $(this).removeClass("future");
+                $(this).addClass("present");
+            }
+            else {
+                $(this).removeClass("present");
+                $(this).removeClass("past");
+                $(this).addClass("future");
+
+            }
+        })
     }
-  }
 
-  // Get any user input saved in localStorage and set the values of corresponding textarea elements
-  $(".time-block").each(function () {
-    var blockId = $(this).attr("id");
-    var savedInput = localStorage.getItem(blockId);
-    if (savedInput !== null) {
-      $(this).find("textarea").val(savedInput);
-    }
-  });
+    // Get item from local storage if any
+    $("#hour8 .description").val(localStorage.getItem("hour8"));
+    $("#hour9 .description").val(localStorage.getItem("hour9"));
+    $("#hour10 .description").val(localStorage.getItem("hour10"));
+    $("#hour11 .description").val(localStorage.getItem("hour11"));
+    $("#hour12 .description").val(localStorage.getItem("hour12"));
+    $("#hour13 .description").val(localStorage.getItem("hour13"));
+    $("#hour14 .description").val(localStorage.getItem("hour14"));
+    $("#hour15 .description").val(localStorage.getItem("hour15"));
+    $("#hour16 .description").val(localStorage.getItem("hour16"));
+    $("#hour17 .description").val(localStorage.getItem("hour17"));
 
-  // Displays current date in the header of the page
-  var currentDate = dayjs().format("dddd, MMMM D, YYYY");
-  $("#currentDay").text(currentDate);
-});
+    timeTracker();
+})
