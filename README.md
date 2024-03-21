@@ -35,4 +35,8 @@ a simple calendar application that allows a user to save events for each hour of
 - Once it saved, it will store in their local storage.
 - This calendar is desktop and mobile compatible.
 
-![ImgforSchedular](https://github.com/NebulaEclipse/Work-Day-Scheduler/assets/147276811/a57abcc7-4ac5-498c-80b3-0fa83684f5f0)
+![image](https://github.com/NebulaEclipse/Work-Day-Scheduler/assets/147276811/fe2f66d3-49ce-412b-8b0e-eddb9ed54d3b)
+
+## Deployed Page
+https://nebulaeclipse.github.io/Work-Day-Scheduler/
+
